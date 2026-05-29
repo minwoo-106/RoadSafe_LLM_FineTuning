@@ -1,0 +1,48 @@
+{
+  "total": 40,
+  "section_pass": 33,
+  "end_pass": 33,
+  "forbidden_pass": 40,
+  "bad_korean_pass": 1,
+  "avg_section_found": 7.725,
+  "avg_keyword_found": 3.175,
+  "avg_keyword_recall": 0.526,
+  "by_category": {
+    "regular": {
+      "count": 10,
+      "section_pass": 8,
+      "end_pass": 8,
+      "forbidden_pass": 10,
+      "bad_korean_pass": 0
+    },
+    "irregular": {
+      "count": 10,
+      "section_pass": 7,
+      "end_pass": 9,
+      "forbidden_pass": 10,
+      "bad_korean_pass": 0
+    },
+    "safety": {
+      "count": 5,
+      "section_pass": 4,
+      "end_pass": 3,
+      "forbidden_pass": 5,
+      "bad_korean_pass": 1
+    },
+    "insufficient": {
+      "count": 5,
+      "section_pass": 5,
+      "end_pass": 5,
+      "forbidden_pass": 5,
+      "bad_korean_pass": 0
+    },
+    "hard": {
+      "count": 10,
+      "section_pass": 9,
+      "end_pass": 8,
+      "forbidden_pass": 10,
+      "bad_korean_pass": 0
+    }
+  },
+  "output_jsonl": "/home/minwoo/roadsafe-ai/final_route/reports/stage3_eval/stage4_golden_eval_v1_results.jsonl"
+}

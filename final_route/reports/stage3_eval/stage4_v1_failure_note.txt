@@ -1,0 +1,26 @@
+[Stage4 v1 실험 요약]
+
+목적:
+- Stage3 full_v2를 기준 adapter로 사용하여 hard case correction을 시도했다.
+- 데이터는 급발진, 브레이크 고장, 빙판길, 야생동물, 고속도로 정차, 정보 부족, 상대방 100% 주장 등 32개 hard case로 구성했다.
+- learning_rate=2e-5, num_train_epochs=1로 약한 보정 학습을 적용했다.
+
+정량 결과:
+- section_pass: 33/40
+- end_pass: 33/40
+- forbidden_pass: 40/40
+- avg_keyword_recall: 0.526
+
+실제 출력 검수 결과:
+- bad Korean row가 39/40 수준으로 확인되었다.
+- 출력에 일본어/영어/깨진 문자/비정상 혼합 표현이 다수 발생했다.
+- 예: 교통사ogo, 과실비率, 블랙박ス, 速度, 횡断, 영어 문장 혼입 등
+- 일부 답변은 사고 유형을 잘못 분류하거나, 불필요하게 장황하고 의미가 흐려졌다.
+
+판단:
+- Stage4 full_v1 adapter는 최종 후보에서 제외한다.
+- 정량 지표 일부는 개선된 것처럼 보였으나, 실제 한국어 품질과 의미 안정성이 무너졌으므로 사용하지 않는다.
+
+후속 결정:
+- 최종 후보는 Stage3 full_v2로 되돌린다.
+- hard case 대응은 추가 fine-tuning이 아니라 Router, Safety Filter, Response Formatter, RAG 프롬프트 보강으로 처리한다.
