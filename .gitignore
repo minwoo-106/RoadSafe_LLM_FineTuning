@@ -1,0 +1,70 @@
+# =========================
+# Python / cache
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# =========================
+# Virtual env / secrets
+# =========================
+.venv/
+venv/
+.env
+*.env
+
+# =========================
+# Model weights / checkpoints
+# =========================
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.gguf
+checkpoint-*/
+outputs/
+final_route/outputs/
+models/
+merged_model/
+adapter_model.safetensors
+
+# =========================
+# TensorBoard / logs
+# =========================
+runs/
+**/runs/
+logs/
+*.log
+
+# =========================
+# Retrieval artifacts
+# =========================
+*.pkl
+*.index
+faiss.index
+bm25_index.pkl
+
+# =========================
+# Runtime files
+# =========================
+uploads/
+results/
+
+# =========================
+# Large generated data
+# =========================
+*.jsonl
+
+# Keep fixed eval files if needed
+!final_route/data/eval/
+!final_route/data/eval/*.jsonl
+
+# =========================
+# Archives / temp
+# =========================
+*.zip
+*.tar
+*.tar.gz
+.DS_Store
+Thumbs.db

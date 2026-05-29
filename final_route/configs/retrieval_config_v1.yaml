@@ -1,0 +1,19 @@
+embedding_model: jhgan/ko-sroberta-multitask
+vector_db: FAISS
+keyword_retrieval: BM25
+
+hybrid_score:
+  method: minmax_normalize_weighted_sum
+  alpha: 0.65
+  bm25_weight: 0.65
+  faiss_weight: 0.35
+
+boost:
+  rule_card_boost: true
+  category_boost: true
+  keyword_boost: true
+
+top_k:
+  bm25: 30
+  faiss: 30
+  final: 5
