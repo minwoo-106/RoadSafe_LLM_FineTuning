@@ -394,23 +394,186 @@ def emergency_prefix(user_input: str) -> str:
     )
 
 
+
+def classify_guardrail_query(user_input: str) -> str:
+    text = user_input.strip()
+
+    if any(k in text for k in ["연기", "불이", "화재", "폭발", "차에서 불", "사진부터"]):
+        return "emergency_fire"
+
+    if any(k in text for k in ["고속도로", "한복판", "도로 한가운데", "뒤에서 차", "개빨리", "2차 사고"]):
+        return "emergency_highway"
+
+    if any(k in text for k in ["그냥 가도", "살짝 쳤", "안 다친 것 같", "괜찮다 하고 갔"]):
+        return "unsafe_leave_scene"
+
+    if any(k in text for k in ["몰아가", "상대 과실로", "거짓", "기억 안 난다고", "허위"]):
+        return "fault_fraud"
+
+    if any(k in text for k in ["합의금 많이", "과장해서", "유리하게 말"]):
+        return "settlement_abuse"
+
+    if any(k in text for k in ["급발진", "페달", "차가 갑자기 튀어나가"]):
+        return "sudden_acceleration"
+
+    if any(k in text for k in ["브레이크", "고장", "정비소", "패드가 닳"]):
+        return "vehicle_failure"
+
+    if any(k in text for k in ["뺑소니", "도주", "연락처 안 주"]):
+        return "hit_and_run"
+
+    if any(k in text for k in ["100%", "무조건", "전부 잘못", "책임 없는", "과실은 아예 없는"]):
+        return "one_hundred_claim"
+
+    return ""
+
+
+def build_guardrail_fallback_response(user_input: str, reason: str) -> str:
+    summary = user_input.strip() if user_input.strip() else "입력된 사고 상황에 대해 추가 확인이 필요합니다."
+
+    common_related = (
+        "- 현재 단계에서는 일반적인 도로교통 사고 쟁점과 과실 판단 요소를 기준으로 안내합니다.\n"
+        "- 정확한 법령, 판례, 과실비율 기준은 RAG 검색 결과와 함께 보강해야 합니다."
+    )
+
+    common_caution = (
+        "이 답변은 일반적인 교통사고 쟁점 안내입니다. 실제 과실비율과 법적 책임은 "
+        "증거와 기관 판단에 따라 달라질 수 있으므로 단정하지 말아야 합니다."
+    )
+
+    templates = {
+        "emergency_fire": {
+            "[상황 요약]": "사고 후 차량에서 연기나 화재 가능성이 의심되는 긴급 상황입니다.",
+            "[사고 유형]": "긴급상황 / 화재·연기 의심 및 2차 사고 위험",
+            "[사실관계 정리]": "- 차량에서 연기나 화재 가능성이 있다면 사진 촬영보다 안전 확보가 우선입니다.\n- 탑승자 부상 여부, 주변 차량 접근 위험, 대피 가능 위치를 먼저 확인해야 합니다.",
+            "[확인 필요]": "- 탑승자 부상 여부\n- 차량 화재·연기 여부\n- 안전지대 위치\n- 119, 경찰, 보험사 연락 필요성",
+            "[핵심 쟁점]": "- 과실 판단보다 생명과 2차 사고 예방이 최우선입니다.\n- 증거 확보는 안전지대로 이동한 뒤 가능한 범위에서 진행해야 합니다.",
+            "[대처 방법]": "1. 연기나 화재가 의심되면 즉시 차량에서 떨어져 안전지대로 대피합니다.\n2. 부상자나 화재 위험이 있으면 119 또는 경찰 신고를 먼저 검토합니다.\n3. 안전이 확보된 뒤에만 사진, 블랙박스, 현장 정보를 보존합니다.\n4. 이후 보험사에 접수하고 사고 경위를 정리합니다.",
+        },
+        "emergency_highway": {
+            "[상황 요약]": "고속도로 또는 도로 한가운데에서 차량이 멈춰 2차 사고 위험이 큰 상황입니다.",
+            "[사고 유형]": "긴급상황 / 고속도로 정차 및 2차 사고 위험",
+            "[사실관계 정리]": "- 후속 차량 접근 위험이 크면 과실 판단보다 대피가 우선입니다.\n- 차량 이동 가능 여부와 탑승자 부상 여부를 확인해야 합니다.",
+            "[확인 필요]": "- 탑승자 부상 여부\n- 차량 이동 가능 여부\n- 갓길 또는 안전지대 위치\n- 119, 경찰, 긴급출동 연락 필요성",
+            "[핵심 쟁점]": "- 2차 사고 예방과 탑승자 안전 확보가 최우선입니다.\n- 사고 원인과 과실 판단은 안전 확보 후 증거를 바탕으로 검토해야 합니다.",
+            "[대처 방법]": "1. 가능하면 비상등을 켜고 갓길이나 안전한 위치로 이동합니다.\n2. 차 안이 위험하면 가드레일 밖 등 안전지대로 대피합니다.\n3. 위험이 크거나 부상자가 있으면 119 또는 경찰 신고를 먼저 검토합니다.\n4. 안전 확보 후 블랙박스와 현장 정보를 보존합니다.",
+        },
+        "unsafe_leave_scene": {
+            "[상황 요약]": "사람과 접촉한 뒤 현장을 떠나도 되는지 묻는 상황입니다.",
+            "[사고 유형]": "인명 관련 사고 / 현장 조치 및 신고 필요성 검토",
+            "[사실관계 정리]": "- 상대가 겉으로 괜찮아 보여도 부상 여부는 나중에 달라질 수 있습니다.\n- 연락처 교환, 사고 사실 기록, 필요한 신고 여부를 확인해야 합니다.",
+            "[확인 필요]": "- 상대방 부상 여부\n- 연락처 교환 여부\n- 사고 위치와 시간\n- 블랙박스, 현장 사진, 목격자 여부",
+            "[핵심 쟁점]": "- 인명 관련 사고에서는 필요한 조치를 하지 않고 현장을 떠나는 것이 문제가 될 수 있습니다.\n- 부상 여부와 사고 후 조치 기록이 중요합니다.",
+            "[대처 방법]": "1. 먼저 상대방의 부상 여부를 확인합니다.\n2. 연락처를 교환하고 사고 사실을 기록합니다.\n3. 부상자나 분쟁 가능성이 있으면 경찰 신고와 보험 접수를 검토합니다.\n4. 블랙박스와 현장 사진 등 객관 자료를 보존합니다.",
+        },
+        "fault_fraud": {
+            "[상황 요약]": "자신의 잘못 가능성이 있는데 상대방 과실로 돌릴 수 있는지 묻는 상황입니다.",
+            "[사고 유형]": "안전성 질문 / 허위 주장 및 과실 다툼 위험",
+            "[사실관계 정리]": "- 블랙박스가 없더라도 허위로 사고 경위를 꾸며서는 안 됩니다.\n- 현장 사진, CCTV, 목격자, 차량 파손 부위 등 다른 객관 자료가 중요합니다.",
+            "[확인 필요]": "- 현장 사진\n- 주변 CCTV 또는 목격자\n- 차량 파손 부위\n- 보험사 과실 산정 근거\n- 본인과 상대방 진술 내용",
+            "[핵심 쟁점]": "- 과실 판단은 허위 주장보다 객관 자료와 일관된 진술을 기준으로 검토됩니다.\n- 사실과 다른 주장은 분쟁을 키울 수 있습니다.",
+            "[대처 방법]": "1. 기억나는 사실을 시간순으로 정리합니다.\n2. 허위 주장보다 남아 있는 객관 자료를 확보합니다.\n3. 보험사에 자료 기준으로 과실 산정 근거를 요청합니다.\n4. 불리한 정황이 있어도 사실관계를 중심으로 대응합니다.",
+        },
+        "settlement_abuse": {
+            "[상황 요약]": "합의금을 유리하게 받기 위해 사고 내용을 과장해도 되는지 묻는 상황입니다.",
+            "[사고 유형]": "안전성 질문 / 합의·보상 관련 허위·과장 위험",
+            "[사실관계 정리]": "- 보상이나 합의는 진단서, 수리 견적, 사고 경위 등 객관 자료를 기준으로 진행해야 합니다.\n- 피해를 과장하거나 사실과 다르게 말하는 것은 분쟁을 키울 수 있습니다.",
+            "[확인 필요]": "- 진단서와 치료 기록\n- 수리 견적과 파손 사진\n- 블랙박스, CCTV, 현장 사진\n- 보험사 안내와 합의 조건",
+            "[핵심 쟁점]": "- 합의금은 과장된 주장보다 객관 자료와 실제 손해를 기준으로 검토됩니다.\n- 허위나 과장 표현은 피해야 합니다.",
+            "[대처 방법]": "1. 치료 기록, 진단서, 수리 견적을 정리합니다.\n2. 보험사에 보상 산정 근거를 요청합니다.\n3. 상대방과 대화할 때는 사실과 자료 중심으로 설명합니다.\n4. 합의 내용은 문서로 남기고 무리한 요구는 피합니다.",
+        },
+        "sudden_acceleration": {
+            "[상황 요약]": "급발진을 주장하면 운전자 책임이 없어지는지 묻는 상황입니다.",
+            "[사고 유형]": "차량 이상 작동 주장 / 급발진 의심 사고",
+            "[사실관계 정리]": "- 급발진 주장은 현재 정보만으로 인정 여부를 단정하기 어렵습니다.\n- 페달 조작, EDR 또는 차량 기록, 블랙박스, 정비 이력 등 객관 자료가 중요합니다.",
+            "[확인 필요]": "- 블랙박스 원본\n- EDR 또는 차량 기록 확인 가능성\n- 페달 조작 정황\n- 정비 이력, 사고 직전 속도 변화, 주변 CCTV",
+            "[핵심 쟁점]": "- 차량 결함인지 운전 조작 문제인지가 핵심입니다.\n- 급발진이라는 주장만으로 운전자 책임이 바로 없어지는 것은 아닙니다.",
+            "[대처 방법]": "1. 차량을 임의로 수리하기 전 가능한 자료를 보존합니다.\n2. 블랙박스와 차량 기록 확인 가능성을 확보합니다.\n3. 정비 이력과 사고 직전 조작 정황을 정리합니다.\n4. 보험사와 필요 시 경찰에 사고 경위를 자료 중심으로 설명합니다.",
+        },
+        "vehicle_failure": {
+            "[상황 요약]": "브레이크 고장이나 차량 이상으로 사고가 났다고 주장하는 상황입니다.",
+            "[사고 유형]": "차량 고장 주장 / 제동 문제 사고",
+            "[사실관계 정리]": "- 고장 주장만으로 책임이 면제된다고 단정하기 어렵습니다.\n- 정비 이력, 제동 흔적, 차량 기록, 사고 직전 속도와 안전거리 확인이 필요합니다.",
+            "[확인 필요]": "- 정비 이력\n- 고장 진단 자료\n- 블랙박스 원본\n- 제동 흔적, 차량 속도, 안전거리",
+            "[핵심 쟁점]": "- 실제 기계 결함인지 운전 조작이나 관리 문제인지가 핵심입니다.\n- 고장의 예견 가능성과 차량 관리 의무도 함께 검토됩니다.",
+            "[대처 방법]": "1. 차량 상태를 임의로 바꾸기 전 자료를 보존합니다.\n2. 정비소 진단 자료와 정비 이력을 확보합니다.\n3. 블랙박스와 사고 직전 제동 정황을 정리합니다.\n4. 보험사에 자료 기준으로 사고 경위를 설명합니다.",
+        },
+        "hit_and_run": {
+            "[상황 요약]": "뺑소니 여부가 궁금하지만 사고 경위와 조치 여부가 부족한 상황입니다.",
+            "[사고 유형]": "정보 부족 / 사고 후 조치 및 현장 이탈 여부 검토",
+            "[사실관계 정리]": "- 사고 후 정차, 부상 확인, 연락처 교환, 신고 여부가 중요합니다.\n- 단순히 '뺑소니'라고 단정하려면 사고 인지 가능성과 현장 조치 여부를 확인해야 합니다.",
+            "[확인 필요]": "- 사고 직후 정차 여부\n- 상대방 부상 여부\n- 연락처 교환 여부\n- 블랙박스, CCTV, 목격자 진술\n- 경찰 또는 보험 접수 기록",
+            "[핵심 쟁점]": "- 사고를 인지했는지, 필요한 구호·신고·연락 조치를 했는지가 핵심입니다.\n- 현재 정보만으로 뺑소니 여부를 단정하기 어렵습니다.",
+            "[대처 방법]": "1. 사고 시간, 장소, 상대방 정보, 연락 여부를 정리합니다.\n2. 블랙박스와 주변 CCTV 확보 가능성을 확인합니다.\n3. 부상자나 분쟁 가능성이 있으면 경찰 신고와 보험 접수를 검토합니다.\n4. 현장 이탈 여부가 문제될 수 있으므로 기록을 최대한 남깁니다.",
+        },
+        "one_hundred_claim": {
+            "[상황 요약]": "상대방에게 모든 책임이 있는지 단정하려는 사고 주장 상황입니다.",
+            "[사고 유형]": "과실 다툼 / 단정 위험 사고",
+            "[사실관계 정리]": "- 상대방의 위반 행위가 있어도 내 차량의 속도, 안전거리, 전방주시, 회피 가능성을 함께 봐야 합니다.\n- 한쪽 주장만으로 과실비율을 단정하기 어렵습니다.",
+            "[확인 필요]": "- 블랙박스 원본\n- 차로와 노면표시\n- 신호 상태\n- 충돌 위치와 사고 직전 거리\n- 방향지시등 사용 여부",
+            "[핵심 쟁점]": "- 상대방 위반 여부와 내 주의의무 이행 여부가 함께 쟁점입니다.\n- 과실비율은 증거와 기관 판단에 따라 달라질 수 있습니다.",
+            "[대처 방법]": "1. 블랙박스 원본과 현장 사진을 보존합니다.\n2. 신호, 속도, 차로, 충돌 위치를 시간순으로 정리합니다.\n3. 보험사에 과실 산정 근거를 요청합니다.\n4. 단정 표현보다 객관 자료 중심으로 대응합니다.",
+        },
+    }
+
+    selected = templates.get(reason)
+    if not selected:
+        return build_typed_fallback_response(user_input)
+
+    parts = []
+    for sec in REQUIRED_SECTIONS:
+        if sec == "[관련 근거]":
+            content = common_related
+        elif sec == "[주의]":
+            content = common_caution
+        else:
+            content = selected.get(sec, default_section_content(sec, user_input=user_input))
+        parts.append(f"{sec}\n{content}")
+
+    return "\n\n".join(parts).strip() + "\n<END>"
+
+
+def has_low_quality_structure(answer: str) -> bool:
+    # Unknown or duplicate headers can pass section checks but still look broken.
+    if "[사고 상황]" in answer:
+        return True
+    if answer.count("[사고 유형]") > 1:
+        return True
+    return False
+
 def finalize_answer(raw_answer: str, user_input: str = "") -> Tuple[str, Dict[str, object]]:
+    guardrail_reason = classify_guardrail_query(user_input)
+
     formatted = format_response(raw_answer, user_input=user_input)
     check = safety_check(formatted)
 
-    # If the model output is unsafe or linguistically broken, replace it with a deterministic fallback.
-    if check["forbidden"] or check["bad_korean"]:
+    # Force deterministic guardrail fallback for high-risk intents even if raw text looks clean.
+    if guardrail_reason:
+        formatted = build_guardrail_fallback_response(user_input=user_input, reason=guardrail_reason)
+        check = safety_check(formatted)
+        check["fallback_used"] = True
+        check["forced_fallback_reason"] = guardrail_reason
+
+    # If the model output is unsafe, linguistically broken, or structurally suspicious, replace it.
+    elif check["forbidden"] or check["bad_korean"] or has_low_quality_structure(formatted):
         formatted = build_typed_fallback_response(user_input=user_input)
         check = safety_check(formatted)
         check["fallback_used"] = True
+        check["forced_fallback_reason"] = "safety_or_structure"
+
     else:
         check["fallback_used"] = False
+        check["forced_fallback_reason"] = ""
 
     prefix = emergency_prefix(user_input)
     if prefix and not formatted.startswith("[긴급 안전 안내]"):
+        prev_reason = check.get("forced_fallback_reason", "")
+        prev_fallback = check.get("fallback_used", False)
+
         formatted = prefix + formatted
         check = safety_check(formatted)
-        check["fallback_used"] = check.get("fallback_used", False)
+        check["fallback_used"] = True or prev_fallback
+        check["forced_fallback_reason"] = prev_reason or "emergency_prefix"
 
     return formatted, check
 
