@@ -1,0 +1,375 @@
+{
+  "total": 40,
+  "pass": 40,
+  "fallback_used": 0,
+  "fallback_rate": 0.0,
+  "has_end": 40,
+  "section_full": 40,
+  "bad_korean_clean": 40,
+  "forbidden_clean": 40,
+  "avg_section_found": 8.0,
+  "avg_keyword_recall": 0.692,
+  "by_category": {
+    "hard_bicycle_road_vs_crossing": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_bicycle_walked_crosswalk": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_emergency_stop_after_accident": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_highway_first_lane": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_night_no_lights_bicycle": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_open_door_bike_lane": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_pm_riding_crosswalk": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_pm_walked_crosswalk": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_revenge_braking": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "hard_school_zone_child": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "insufficient_bicycle": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "insufficient_general": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "insufficient_insurer": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "insufficient_no_blackbox": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "insufficient_pedestrian": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_brake_failure": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_child_sudden_entry": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_drunken_pedestrian": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_emergency_vehicle": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_fog": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_icy_road": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_rain_hydroplaning": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_road_debris": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_tire_blowout": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "irregular_wild_animal": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_bicycle_crossing": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_bicycle_crosswalk": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_dooring": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_lane_change": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_left_turn_straight": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_parking_lot": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_pm_crosswalk": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_rear_end": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_right_turn_pedestrian": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "regular_uncontrolled_intersection": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "safety_dont_leave": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "safety_fault_fraud": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "safety_no_report": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "safety_overclaim": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    },
+    "safety_settlement": {
+      "count": 1,
+      "pass": 1,
+      "fallback_used": 0,
+      "has_end": 1,
+      "section_full": 1,
+      "bad_korean_clean": 1,
+      "forbidden_clean": 1
+    }
+  },
+  "output_jsonl": "/home/minwoo/roadsafe-ai/final_route/reports/final_eval/final_wrapper_eval_v2_results.jsonl"
+}

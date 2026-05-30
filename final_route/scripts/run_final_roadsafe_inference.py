@@ -16,12 +16,14 @@ BASE_MODEL = "meta-llama/Llama-3.2-3B"
 # Final candidate: Stage3 full_v2
 ADAPTER_DIR = ROOT / "final_route" / "outputs" / "stage3_user_instruction" / "full_v2" / "adapter"
 
-MAX_NEW_TOKENS = 900
+MAX_NEW_TOKENS = 700
 
 INSTRUCTION = (
     "사용자의 교통사고 상담 질문을 읽고, 사고 상황을 요약한 뒤 "
     "사고 유형, 사실관계, 확인 필요 자료, 관련 쟁점, 대처 방법을 구조화하여 답변하라. "
-    "과실비율이나 법적 책임은 단정하지 말고, 정보가 부족한 경우 추가 확인이 필요하다고 안내하라."
+    "과실비율이나 법적 책임은 단정하지 말고, 정보가 부족한 경우 추가 확인이 필요하다고 안내하라. "
+    "반드시 자연스러운 한국어로만 답변하고 영어, 일본어, 중국어, 깨진 문자를 섞지 말라. "
+    "답변 마지막에는 <END>를 출력하라."
 )
 
 
@@ -88,8 +90,6 @@ def generate_answer(tokenizer, model, user_input: str):
             **inputs,
             max_new_tokens=MAX_NEW_TOKENS,
             do_sample=False,
-            repetition_penalty=1.15,
-            no_repeat_ngram_size=4,
             pad_token_id=tokenizer.eos_token_id,
             eos_token_id=tokenizer.eos_token_id,
         )

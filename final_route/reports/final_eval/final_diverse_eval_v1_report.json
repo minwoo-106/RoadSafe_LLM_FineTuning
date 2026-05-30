@@ -1,0 +1,214 @@
+{
+  "total": 20,
+  "final_pass": 20,
+  "fallback_used": 0,
+  "fallback_rate": 0.0,
+  "raw_bad_clean": 20,
+  "final_bad_clean": 20,
+  "forbidden_clean": 20,
+  "has_end": 20,
+  "section_full": 20,
+  "by_category": {
+    "bicycle_night": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "blackbox_missing": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "brake_failure": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "claim_100": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "door_open": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "drunk_pedestrian": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "emergency_highway": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "fault_fraud_safety": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "fog": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "insurance_dispute": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "lane_change": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "left_turn": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "parking_lot": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "pm_crosswalk": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "rain_hydroplaning": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "rear_end": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "school_zone": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "settlement_safety": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "sudden_acceleration": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    },
+    "wild_animal": {
+      "count": 1,
+      "final_pass": 1,
+      "fallback_used": 0,
+      "raw_bad_clean": 1,
+      "final_bad_clean": 1,
+      "forbidden_clean": 1,
+      "has_end": 1,
+      "section_full": 1
+    }
+  },
+  "output_jsonl": "/home/minwoo/roadsafe-ai/final_route/reports/final_eval/final_diverse_eval_v1_results.jsonl"
+}
