@@ -1,0 +1,36 @@
+[RoadSafe LLM Final System Decision Note]
+
+최종 기준 모델:
+- Stage3 full_v2 adapter를 최종 모델 후보로 사용한다.
+- Stage3 v3/v4 및 Stage4 hardcase fine-tuning은 실험했지만 최종 후보에서 제외한다.
+
+최종 시스템 구조:
+- Base Model: meta-llama/Llama-3.2-3B
+- Adapter: final_route/outputs/stage3_user_instruction/full_v2/adapter
+- Final Layer:
+  1. Response Formatter
+  2. Safety Filter
+  3. Typed Fallback Response
+  4. Emergency Router
+
+Final Wrapper 평가 결과:
+- total: 40
+- pass: 40
+- has_end: 40
+- section_full: 40
+- bad_korean_clean: 40
+- forbidden_clean: 40
+- avg_section_found: 8.0
+- avg_keyword_recall: 0.617
+- fallback_used: 34/40
+- fallback_rate: 0.85
+
+해석:
+- 모델 단독 답변은 일부 깨진 한국어와 외국어 혼입 문제가 있었다.
+- Final Wrapper는 해당 문제를 탐지하고 유형별 안전 답변으로 교체하여 최종 출력 안정성을 확보했다.
+- 따라서 RoadSafe LLM은 모델 단독 시스템이 아니라, 모델 + 안전 필터 + 응답 포매터 + 유형별 fallback 구조로 완성한다.
+
+후속 과제:
+- RAG 검색 결과를 [관련 근거] 섹션에 연결한다.
+- Flask 웹 UI에서 RoadSafe LLM 질의응답 페이지와 연결한다.
+- fallback 비율을 낮추기 위한 추가 데이터 개선은 향후 과제로 둔다.
