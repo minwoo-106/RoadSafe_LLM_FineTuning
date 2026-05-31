@@ -1,0 +1,20 @@
+{
+  "total": 20,
+  "final_pass": 20,
+  "fallback_used": 19,
+  "fallback_rate": 0.95,
+  "raw_bad_clean": 20,
+  "final_bad_clean": 20,
+  "forbidden_clean": 20,
+  "has_end": 20,
+  "section_full": 20,
+  "expectation_pass": 20,
+  "fallback_reasons": {
+    "road_environment_hazard": 11,
+    "road_work_lane_control": 3,
+    "traffic_sign_violation": 3,
+    "u_turn_motorcycle": 1,
+    "road_debris": 1
+  },
+  "output_jsonl": "/home/minwoo/roadsafe-ai/final_route/reports/final_eval/final_road_sign_eval_v2_results.jsonl"
+}
