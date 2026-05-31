@@ -68,3 +68,47 @@ results/
 *.tar.gz
 .DS_Store
 Thumbs.db
+
+# Local datasets / raw archives
+archive/
+data/
+final_route/data/stage1/
+final_route/data/stage2/
+final_route/data/stage3/
+final_route/data/stage4/
+final_route/source_seed/
+
+# Local training artifacts
+final_route/outputs/
+final_route/tensorboard/
+final_route/tensorboard_clean/
+
+# Eval full outputs with generated answers
+final_route/reports/final_eval/*_results.jsonl
+final_route/reports/stage3_eval/*_results.jsonl
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local datasets / raw archives
+archive/
+data/
+final_route/data/stage1/
+final_route/data/stage2/
+final_route/data/stage3/
+final_route/data/stage4/
+final_route/source_seed/
+
+# Local training artifacts
+final_route/outputs/
+final_route/tensorboard/
+final_route/tensorboard_clean/
+
+# Eval full outputs with generated answers
+final_route/reports/final_eval/*_results.jsonl
+final_route/reports/stage3_eval/*_results.jsonl
+
+# Python cache
+__pycache__/
+*.pyc
