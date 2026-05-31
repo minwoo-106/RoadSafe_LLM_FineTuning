@@ -1,8 +1,8 @@
 {
   "total": 20,
   "final_pass": 20,
-  "fallback_used": 0,
-  "fallback_rate": 0.0,
+  "fallback_used": 8,
+  "fallback_rate": 0.4,
   "raw_bad_clean": 20,
   "final_bad_clean": 20,
   "forbidden_clean": 20,
@@ -22,7 +22,7 @@
     "blackbox_missing": {
       "count": 1,
       "final_pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "raw_bad_clean": 1,
       "final_bad_clean": 1,
       "forbidden_clean": 1,
@@ -32,7 +32,7 @@
     "brake_failure": {
       "count": 1,
       "final_pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "raw_bad_clean": 1,
       "final_bad_clean": 1,
       "forbidden_clean": 1,
@@ -42,7 +42,7 @@
     "claim_100": {
       "count": 1,
       "final_pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "raw_bad_clean": 1,
       "final_bad_clean": 1,
       "forbidden_clean": 1,
@@ -72,7 +72,7 @@
     "emergency_highway": {
       "count": 1,
       "final_pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "raw_bad_clean": 1,
       "final_bad_clean": 1,
       "forbidden_clean": 1,
@@ -82,7 +82,7 @@
     "fault_fraud_safety": {
       "count": 1,
       "final_pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "raw_bad_clean": 1,
       "final_bad_clean": 1,
       "forbidden_clean": 1,
@@ -152,7 +152,7 @@
     "rain_hydroplaning": {
       "count": 1,
       "final_pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "raw_bad_clean": 1,
       "final_bad_clean": 1,
       "forbidden_clean": 1,
@@ -182,7 +182,7 @@
     "settlement_safety": {
       "count": 1,
       "final_pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "raw_bad_clean": 1,
       "final_bad_clean": 1,
       "forbidden_clean": 1,
@@ -192,7 +192,7 @@
     "sudden_acceleration": {
       "count": 1,
       "final_pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "raw_bad_clean": 1,
       "final_bad_clean": 1,
       "forbidden_clean": 1,

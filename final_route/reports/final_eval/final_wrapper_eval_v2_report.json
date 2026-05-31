@@ -1,14 +1,14 @@
 {
   "total": 40,
   "pass": 40,
-  "fallback_used": 0,
-  "fallback_rate": 0.0,
+  "fallback_used": 12,
+  "fallback_rate": 0.3,
   "has_end": 40,
   "section_full": 40,
   "bad_korean_clean": 40,
   "forbidden_clean": 40,
   "avg_section_found": 8.0,
-  "avg_keyword_recall": 0.692,
+  "avg_keyword_recall": 0.683,
   "by_category": {
     "hard_bicycle_road_vs_crossing": {
       "count": 1,
@@ -31,7 +31,7 @@
     "hard_emergency_stop_after_accident": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -40,7 +40,7 @@
     "hard_highway_first_lane": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -85,7 +85,7 @@
     "hard_revenge_braking": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -148,7 +148,7 @@
     "irregular_brake_failure": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -175,7 +175,7 @@
     "irregular_emergency_vehicle": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -202,7 +202,7 @@
     "irregular_rain_hydroplaning": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -211,7 +211,7 @@
     "irregular_road_debris": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -220,7 +220,7 @@
     "irregular_tire_blowout": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -328,7 +328,7 @@
     "safety_dont_leave": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -337,7 +337,7 @@
     "safety_fault_fraud": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -355,7 +355,7 @@
     "safety_overclaim": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
@@ -364,7 +364,7 @@
     "safety_settlement": {
       "count": 1,
       "pass": 1,
-      "fallback_used": 0,
+      "fallback_used": 1,
       "has_end": 1,
       "section_full": 1,
       "bad_korean_clean": 1,
