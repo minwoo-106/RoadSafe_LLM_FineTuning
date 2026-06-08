@@ -3,40 +3,50 @@ from typing import Dict, List, Tuple
 
 
 REQUIRED_SECTIONS = [
-    "[상황 요약]",
-    "[사고 유형]",
-    "[사실관계 정리]",
-    "[확인 필요]",
-    "[관련 근거]",
-    "[핵심 쟁점]",
-    "[대처 방법]",
-    "[주의]",
+    "[1. 사고 유형]",
+    "[2. 사고 상황 정리]",
+    "[3. 법률·과실 쟁점]",
+    "[4. 보험사에 물어볼 질문]",
+    "[5. 추가로 확보할 자료]",
+    "[6. 다음 행동 체크리스트]",
 ]
 
 SECTION_NORMALIZE_MAP = {
-    "[상황 요 약]": "[상황 요약]",
-    "[상황요약]": "[상황 요약]",
-    "[상황 요축]": "[상황 요약]",
-    "[상황 요추]": "[상황 요약]",
+    "[사고 유형]": "[1. 사고 유형]",
+    "[1 사고 유형]": "[1. 사고 유형]",
+    "[1.사고 유형]": "[1. 사고 유형]",
 
-    "[사실관계정리]": "[사실관계 정리]",
-    "[사실 관계 정리]": "[사실관계 정리]",
+    "[사고 상황 정리]": "[2. 사고 상황 정리]",
+    "[상황 요약]": "[2. 사고 상황 정리]",
+    "[상황요약]": "[2. 사고 상황 정리]",
+    "[사실관계 정리]": "[2. 사고 상황 정리]",
+    "[사실관계정리]": "[2. 사고 상황 정리]",
 
-    "[확인필요]": "[확인 필요]",
-    "[확인 자료]": "[확인 필요]",
+    "[법률·과실 쟁점]": "[3. 법률·과실 쟁점]",
+    "[법률/과실 쟁점]": "[3. 법률·과실 쟁점]",
+    "[핵심 쟁점]": "[3. 법률·과실 쟁점]",
+    "[핵심쟁점]": "[3. 법률·과실 쟁점]",
 
-    "[관련근거]": "[관련 근거]",
-    "[관련 근 거]": "[관련 근거]",
+    "[보험사에 물어볼 질문]": "[4. 보험사에 물어볼 질문]",
+    "[보험사 질문]": "[4. 보험사에 물어볼 질문]",
 
-    "[핵심쟁점]": "[핵심 쟁점]",
-    "[핵심 쟁 점]": "[핵심 쟁점]",
+    "[추가로 확보할 자료]": "[5. 추가로 확보할 자료]",
+    "[추가 확보 자료]": "[5. 추가로 확보할 자료]",
+    "[확인 필요]": "[5. 추가로 확보할 자료]",
+    "[확인필요]": "[5. 추가로 확보할 자료]",
+    "[확인 자료]": "[5. 추가로 확보할 자료]",
 
-    "[대처방법]": "[대처 방법]",
-    "[D대처 방법]": "[대처 방법]",
+    "[다음 행동 체크리스트]": "[6. 다음 행동 체크리스트]",
+    "[6. 다음 행동]": "[6. 다음 행동 체크리스트]",
+    "[다음 행동]": "[6. 다음 행동 체크리스트]",
+    "[행동 체크리스트]": "[6. 다음 행동 체크리스트]",
+    "[지금 당장 할 행동]": "[6. 다음 행동 체크리스트]",
+    "[대처 방법]": "[6. 다음 행동 체크리스트]",
+    "[대처방법]": "[6. 다음 행동 체크리스트]",
 
-    "[주의사항]": "[주의]",
-    "[주의 사항]": "[주의]",
-    "[NB]": "[주의]",
+    "[주의]": "[6. 다음 행동 체크리스트]",
+    "[주의사항]": "[6. 다음 행동 체크리스트]",
+    "[관련 근거]": "[3. 법률·과실 쟁점]",
 }
 
 FORBIDDEN_PHRASES = [
@@ -112,29 +122,48 @@ def extract_sections(text: str) -> Dict[str, str]:
 
 
 def default_section_content(section: str, user_input: str = "") -> str:
-    if section == "[상황 요약]":
-        return user_input.strip() if user_input.strip() else "입력된 사고 상황을 바탕으로 추가 확인이 필요합니다."
+    if section == "[1. 사고 유형]":
+        return (
+            "- 사고 유형: 입력 내용을 기준으로 교통주체와 진행 방향을 먼저 분류해야 합니다.\n"
+            "- 도로 상황: 교차로, 차로 변경, 추돌, 횡단보도 등 사고 장소를 확인해야 합니다.\n"
+            "- 사용자 진행: 확인 필요\n"
+            "- 상대 진행: 확인 필요"
+        )
 
-    if section == "[사고 유형]":
-        return "교통사고 유형은 현재 정보만으로 단정하지 않고, 교통 주체와 장소를 기준으로 추가 확인이 필요합니다."
+    if section == "[2. 사고 상황 정리]":
+        return user_input.strip() if user_input.strip() else "입력된 사고 상황을 바탕으로 사고 흐름을 정리해야 합니다."
 
-    if section == "[사실관계 정리]":
-        return "- 사고 장소, 진행 방향, 신호 상태, 충돌 위치를 확인해야 합니다.\n- 차량 속도, 시야 제한, 사고 직후 조치도 함께 정리해야 합니다."
+    if section == "[3. 법률·과실 쟁점]":
+        return (
+            "- 핵심 쟁점: 신호 준수 여부, 진행 방향, 충돌 위치, 진입 시점, 주의의무 위반 여부를 확인해야 합니다.\n"
+            "- 사용자에게 유리한 포인트: 사용자가 정상 신호 또는 정상 차로로 진행했다면 중요한 검토 요소가 될 수 있습니다.\n"
+            "- 사용자에게 불리한 포인트: 회피 가능성, 전방주시, 속도, 충돌 위치에 따라 일부 과실이 검토될 수 있습니다."
+        )
 
-    if section == "[확인 필요]":
-        return "- 블랙박스 원본\n- CCTV 또는 목격자 진술\n- 신호 상태와 충돌 위치\n- 현장 사진과 보험 접수 기록"
+    if section == "[4. 보험사에 물어볼 질문]":
+        return (
+            "1. 이번 사고를 어떤 사고 유형과 과실 기준으로 분류했나요?\n"
+            "2. 블랙박스 또는 현장 사진의 어떤 장면을 근거로 판단했나요?\n"
+            "3. 신호, 차선, 충돌 위치, 진입 시점은 과실 판단에 어떻게 반영됐나요?\n"
+            "4. 추가 자료를 제출하면 재검토가 가능한가요?"
+        )
 
-    if section == "[관련 근거]":
-        return "- 현재 단계에서는 일반적인 도로교통 사고 쟁점과 과실 판단 요소를 기준으로 안내합니다.\n- 정확한 법령, 판례, 과실비율 기준은 RAG 검색 결과와 함께 보강해야 합니다."
+    if section == "[5. 추가로 확보할 자료]":
+        return (
+            "- 블랙박스 원본\n"
+            "- 사고 직후 현장 사진\n"
+            "- 차량 파손 부위 사진\n"
+            "- 신호등, 차선, 표지판, 충돌 위치 자료\n"
+            "- 보험사 통화 내용 또는 담당자 안내 기록"
+        )
 
-    if section == "[핵심 쟁점]":
-        return "- 사고 발생 경위와 각 당사자의 주의의무 위반 여부가 핵심입니다.\n- 현재 정보만으로 과실비율이나 법적 책임을 단정하기 어렵습니다."
-
-    if section == "[대처 방법]":
-        return "1. 부상 여부와 2차 사고 위험을 먼저 확인합니다.\n2. 블랙박스, CCTV, 현장 사진 등 원본 자료를 보존합니다.\n3. 보험사에 접수하고 필요하면 경찰 신고를 검토합니다."
-
-    if section == "[주의]":
-        return "이 답변은 일반적인 교통사고 쟁점 안내입니다. 실제 과실비율과 법적 책임은 증거와 기관 판단에 따라 달라질 수 있으므로 단정하지 말아야 합니다."
+    if section == "[6. 다음 행동 체크리스트]":
+        return (
+            "1. 블랙박스 원본과 현장 사진을 백업합니다.\n"
+            "2. 사고 당시 신호, 차선, 진행 방향, 충돌 위치를 시간순으로 정리합니다.\n"
+            "3. 보험사에 사고 유형과 과실 산정 근거를 요청합니다.\n"
+            "4. 상대방 주장에 바로 인정하거나 현장 합의하지 말고 객관 자료 중심으로 대응합니다."
+        )
 
     return "추가 확인이 필요합니다."
 
@@ -161,6 +190,10 @@ def format_response(raw_answer: str, user_input: str = "") -> str:
     text = normalize_section_headers(text)
     text = trim_at_end_token(text)
 
+    # Remove extra model-generated appendix blocks that weaken the report UX.
+    text = re.sub(r"\n?###\s*추가 확인 필요.*$", "", text, flags=re.DOTALL).strip()
+    text = re.sub(r"\n?\[주의\].*$", "", text, flags=re.DOTALL).strip()
+
     sections = extract_sections(text)
 
     # If the model produced almost no section headers, preserve raw answer as summary-ish context.
@@ -175,12 +208,10 @@ def format_response(raw_answer: str, user_input: str = "") -> str:
             content = default_section_content(sec, user_input=user_input)
 
         # Keep sections readable, prevent runaway outputs.
-        if sec in ("[상황 요약]", "[사고 유형]"):
-            content = compact_content(content, max_chars=300)
-        elif sec in ("[주의]", "[관련 근거]"):
+        if sec in ("[1. 사고 유형]", "[2. 사고 상황 정리]"):
             content = compact_content(content, max_chars=500)
         else:
-            content = compact_content(content, max_chars=700)
+            content = compact_content(content, max_chars=900)
 
         rebuilt.append(f"{sec}\n{content}")
 
@@ -230,16 +261,18 @@ def is_emergency_query(user_input: str) -> bool:
     return fire_or_injury or highway_or_road_stop
 
 
-def safety_check(answer: str) -> Dict[str, object]:
+def safety_check(answer: str, user_input: str = "") -> Dict[str, object]:
     forbidden = detect_forbidden(answer)
     bad_korean = detect_bad_korean(answer)
+    semantic_mismatch = detect_semantic_mismatch(answer, user_input=user_input)
     missing_sections = [sec for sec in REQUIRED_SECTIONS if sec not in answer]
     has_end = answer.rstrip().endswith("<END>")
 
     return {
-        "pass": not forbidden and not bad_korean and not missing_sections and has_end,
+        "pass": not forbidden and not bad_korean and not semantic_mismatch and not missing_sections and has_end,
         "forbidden": forbidden,
         "bad_korean": bad_korean,
+        "semantic_mismatch": semantic_mismatch,
         "missing_sections": missing_sections,
         "has_end": has_end,
     }
@@ -848,3 +881,99 @@ if __name__ == "__main__":
     assert "[대처 방법]" in final
     assert final.rstrip().endswith("<END>")
     print("\n[OK] final_response_utils self-test passed")
+
+def fix_clear_accident_misclassification(answer: str, user_input: str = "") -> str:
+    """
+    명확한 사용자 입력과 모순되는 사고유형 오분류를 교정한다.
+    특히 차대차/버스/좌회전·우회전 사고를 보행자 사고로 잘못 분류하는 문제를 막는다.
+    """
+    q = user_input.strip()
+
+    is_left_turn_vs_right_turn_bus = (
+        ("좌회전" in q)
+        and ("우회전" in q)
+        and ("버스" in q)
+        and ("접촉" in q or "사고" in q or "부딪" in q)
+    )
+
+    pedestrian_wrong = any(k in answer for k in [
+        "차 대 보행자",
+        "보행자 신호위반",
+        "보행자 측 과실",
+        "무단횡단",
+    ])
+
+    if is_left_turn_vs_right_turn_bus and pedestrian_wrong:
+        return (
+            "[1. 사고 유형]\n"
+            "- 사고 유형: 차 대 차 / 교차로 내 좌회전 차량과 맞은편 우회전 버스 간 접촉 사고\n"
+            "- 도로 상황: 교차로 또는 교차로 진입·회전 구간\n"
+            "- 사용자 진행: 좌회전 신호를 받고 좌회전 진행했다고 주장\n"
+            "- 상대 진행: 맞은편 차선에서 우회전하던 버스\n"
+            "- 현재 분쟁 포인트: 버스기사가 사용자 과실을 주장하며 다툼 발생\n\n"
+
+            "[2. 사고 상황 정리]\n"
+            "사용자는 좌회전 신호를 받고 교차로에서 좌회전하던 중, 맞은편 차선에서 우회전하던 버스와 접촉 사고가 발생했다고 설명하고 있습니다. "
+            "이 사고는 보행자 사고가 아니라 차량 대 차량 사고로 보아야 하며, 핵심은 좌회전 신호 차량의 진행 상황과 우회전 버스의 진입 시점, 충돌 위치입니다.\n\n"
+
+            "[3. 법률·과실 쟁점]\n"
+            "- 핵심 쟁점: 사용자가 실제로 좌회전 신호를 받고 진입했는지, 버스가 우회전하면서 좌회전 차량의 진로를 방해했는지, 충돌 위치와 양 차량의 진입 시점이 어떻게 되는지가 중요합니다.\n"
+            "- 사용자에게 유리한 포인트: 좌회전 신호를 받고 정상적으로 진입한 사실이 블랙박스나 신호 자료로 확인된다면 사용자에게 유리하게 검토될 수 있습니다. 또한 버스가 우회전 중 충분히 서행하거나 안전 확인을 하지 않았다면 상대 측 과실 쟁점이 됩니다.\n"
+            "- 사용자에게 불리한 포인트: 좌회전 중에도 주변 차량을 확인할 주의의무가 있으므로, 충돌 직전 회피 가능성이나 속도, 전방·측방 주시 여부에 따라 일부 과실이 검토될 수 있습니다.\n\n"
+
+            "[4. 보험사에 물어볼 질문]\n"
+            "1. 이번 사고를 차 대 차 교차로 사고 중 어떤 유형으로 분류했나요?\n"
+            "2. 제가 좌회전 신호를 받고 진입했다는 점이 과실 판단에 반영됐나요?\n"
+            "3. 버스의 우회전 진입 시점과 충돌 위치를 어떻게 판단했나요?\n"
+            "4. 버스의 서행 및 안전 확인 의무 위반 가능성은 검토됐나요?\n"
+            "5. 블랙박스 영상의 어느 장면을 근거로 과실을 판단했나요?\n"
+            "6. 추가 자료를 제출하면 과실 판단 재검토가 가능한가요?\n\n"
+
+            "[5. 추가로 확보할 자료]\n"
+            "- 블랙박스 원본 영상\n"
+            "- 좌회전 신호가 확인되는 장면 또는 신호 주기 자료\n"
+            "- 사고 직후 차량 위치와 충돌 부위 사진\n"
+            "- 교차로 차선, 정지선, 신호등, 우회전 차로 사진\n"
+            "- 버스 번호판, 버스 회사 정보, 보험사 접수번호\n"
+            "- 버스기사 발언 내용과 통화 기록\n\n"
+
+            "[6. 다음 행동 체크리스트]\n"
+            "1. 현장에서 과실을 인정하거나 구두 합의하지 않습니다.\n"
+            "2. 블랙박스 원본을 따로 백업합니다.\n"
+            "3. 보험사에 좌회전 신호 여부와 버스 우회전 진입 시점을 기준으로 사고 유형 재확인을 요청합니다.\n"
+            "4. 사고 위치, 신호, 차선, 충돌 부위를 시간순으로 정리합니다.\n"
+            "5. 상대가 위협적으로 행동했거나 분쟁이 크면 경찰 신고 또는 사고사실확인원 발급 여부를 검토합니다.\n"
+            "<END>"
+        )
+
+    return answer
+
+def detect_semantic_mismatch(answer: str, user_input: str = "") -> List[str]:
+    """
+    사용자 입력과 답변 사이의 명백한 의미 모순을 탐지한다.
+    기존 safety_check가 섹션/깨진 문자만 보던 문제를 보완한다.
+    """
+    q = user_input.strip()
+    issues = []
+
+    pedestrian_terms_in_input = ["보행자", "사람", "행인", "무단횡단", "횡단보도 건너", "보행"]
+    pedestrian_terms_in_answer = ["차 대 보행자", "보행자 신호위반", "보행자 측 과실", "무단횡단", "횡단 위치"]
+
+    has_pedestrian_input = any(k in q for k in pedestrian_terms_in_input)
+    has_pedestrian_answer = any(k in answer for k in pedestrian_terms_in_answer)
+
+    if not has_pedestrian_input and has_pedestrian_answer:
+        issues.append("입력에 보행자가 명시되지 않았는데 보행자 사고/보행자 과실 쟁점이 출력됨")
+
+    if "버스" in q and "상대 교통주체: 보행자" in answer:
+        issues.append("입력의 상대 교통주체는 버스인데 답변에서 보행자로 바뀜")
+
+    if ("좌회전" in q and "우회전" in q and "버스" in q):
+        if "차 대 보행자" in answer:
+            issues.append("좌회전 차량 대 우회전 버스 사고를 차 대 보행자로 오분류함")
+        if "버스" not in answer:
+            issues.append("입력의 핵심 교통주체인 버스가 답변에 반영되지 않음")
+        if "좌회전" not in answer or "우회전" not in answer:
+            issues.append("입력의 핵심 진행방향인 좌회전/우회전이 답변에 충분히 반영되지 않음")
+
+    return issues

@@ -1,114 +1,72 @@
-# =========================
-# Python / cache
-# =========================
+# Python
+.venv/
+venv/
 __pycache__/
 *.pyc
 *.pyo
-.ipynb_checkpoints/
+*.pyd
 
-# =========================
-# Virtual env / secrets
-# =========================
-.venv/
-venv/
+# Environment
 .env
-*.env
-
-# =========================
-# Model weights / checkpoints
-# =========================
-*.pt
-*.pth
-*.bin
-*.safetensors
-*.gguf
-checkpoint-*/
-outputs/
-final_route/outputs/
-models/
-merged_model/
-adapter_model.safetensors
-
-# =========================
-# TensorBoard / logs
-# =========================
-runs/
-**/runs/
-logs/
 *.log
 
-# =========================
-# Retrieval artifacts
-# =========================
-*.pkl
-*.index
-faiss.index
-bm25_index.pkl
+# Model weights
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.bin
 
-# =========================
-# Runtime files
-# =========================
-uploads/
-results/
+# Training / experiment outputs
+runs/
+wandb/
+outputs/
+checkpoints/
+tensorboard/
+tensorboard_clean/
+vector_index/
+final_route/tensorboard/
+final_route/tensorboard_clean/
+final_route/vector_index/
 
-# =========================
-# Large generated data
-# =========================
-*.jsonl
+# Raw data / large datasets
+data/raw/
+datasets/
+*.mp4
+*.avi
+*.mov
+*.mkv
 
-# Keep fixed eval files if needed
-!final_route/data/eval/
-!final_route/data/eval/*.jsonl
-
-# =========================
-# Archives / temp
-# =========================
+# Exports / archives
+export/
 *.zip
 *.tar
-*.tar.gz
+*.gz
+
+# Backup files
+*.bak
+*.backup
+*.bak_*
+*_backup/
+
+# Old experiments / seed packs
+archive/
+final_route/source_seed/
+
+# Evaluation raw result logs
+*_results.jsonl
+
+# OS / IDE
 .DS_Store
-Thumbs.db
+.vscode/
+.idea/
 
-# Local datasets / raw archives
-archive/
+# Local generated data / training sets
 data/
-final_route/data/stage1/
-final_route/data/stage2/
-final_route/data/stage3/
-final_route/data/stage4/
-final_route/source_seed/
+final_route/data/
 
-# Local training artifacts
-final_route/outputs/
-final_route/tensorboard/
-final_route/tensorboard_clean/
+# Evaluation reports generated locally
+final_route/reports/
 
-# Eval full outputs with generated answers
-final_route/reports/final_eval/*_results.jsonl
-final_route/reports/stage3_eval/*_results.jsonl
-
-# Python cache
-__pycache__/
-*.pyc
-
-# Local datasets / raw archives
-archive/
-data/
-final_route/data/stage1/
-final_route/data/stage2/
-final_route/data/stage3/
-final_route/data/stage4/
-final_route/source_seed/
-
-# Local training artifacts
-final_route/outputs/
-final_route/tensorboard/
-final_route/tensorboard_clean/
-
-# Eval full outputs with generated answers
-final_route/reports/final_eval/*_results.jsonl
-final_route/reports/stage3_eval/*_results.jsonl
-
-# Python cache
-__pycache__/
-*.pyc
+# Optional evaluation scripts not needed for minimal portfolio
+final_route/scripts/eval_*.py
