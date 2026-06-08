@@ -936,6 +936,121 @@ def build_semantic_fallback_response(user_input: str = "", mismatches: List[str]
 
 
 
+
+def detect_dispute_context(user_input: str = "") -> Dict[str, object]:
+    """
+    사고 후 상대방의 욕설, 과실 몰아가기, 현장 합의 강요, 보험 접수 거부 등
+    분쟁 확대 가능성이 있는 표현을 감지한다.
+    """
+    q = user_input.strip()
+
+    patterns = {
+        "verbal_abuse": ["욕", "소리", "화내", "따지", "시비", "싸우", "말싸움"],
+        "blame_shift": ["내 잘못", "네 잘못", "니 잘못", "너 잘못", "내잘못", "사용자 과실", "몰아"],
+        "settlement_pressure": ["합의하자", "현장 합의", "돈 줄게", "돈 달라", "그냥 넘어가", "좋게 끝내"],
+        "insurance_refusal": ["보험 접수 안", "보험처리 안", "보험 안", "접수 거부"],
+        "police_avoidance": ["경찰 부르지", "경찰 신고하지", "신고하지 마"],
+        "threat": ["협박", "위협", "죽여", "가만 안", "때리"],
+        "hit_and_run_risk": ["도망", "그냥 감", "가버", "연락처 안", "번호 안", "명함 안"],
+    }
+
+    detected = []
+    for key, words in patterns.items():
+        if any(w in q for w in words):
+            detected.append(key)
+
+    if not detected:
+        return {"has_dispute": False, "types": []}
+
+    labels = {
+        "verbal_abuse": "욕설 또는 언쟁",
+        "blame_shift": "일방적인 과실 주장",
+        "settlement_pressure": "현장 합의 또는 금전 요구",
+        "insurance_refusal": "보험 접수 거부 가능성",
+        "police_avoidance": "경찰 신고 회피 요구",
+        "threat": "협박 또는 위협 가능성",
+        "hit_and_run_risk": "연락처 미제공 또는 현장 이탈 가능성",
+    }
+
+    return {
+        "has_dispute": True,
+        "types": detected,
+        "labels": [labels[t] for t in detected],
+    }
+
+
+def append_to_section(answer: str, section: str, addition: str) -> str:
+    """
+    지정 섹션 끝에 문장을 추가한다. 섹션이 없으면 원문을 유지한다.
+    """
+    if not addition.strip() or section not in answer:
+        return answer
+
+    # 이미 같은 문구가 있으면 중복 추가 방지
+    if addition.strip() in answer:
+        return answer
+
+    pattern = rf"({re.escape(section)}\n)(.*?)(?=\n\n\[|\n<END>|$)"
+
+    def repl(m):
+        head = m.group(1)
+        body = m.group(2).rstrip()
+        return f"{head}{body}\n{addition.strip()}"
+
+    return re.sub(pattern, repl, answer, count=1, flags=re.DOTALL)
+
+
+def inject_dispute_context(answer: str, user_input: str = "") -> str:
+    """
+    상대방의 사고 후 대응이 분쟁 위험으로 보이면 기존 6섹션 리포트 안에
+    대응 포인트를 자연스럽게 삽입한다. 새 섹션은 만들지 않는다.
+    """
+    ctx = detect_dispute_context(user_input)
+    if not ctx.get("has_dispute"):
+        return answer
+
+    labels = ", ".join(ctx.get("labels", []))
+
+    s1 = f"- 상대방 대응: {labels} 정황이 있어 분쟁 가능성이 높습니다."
+    s2 = (
+        f"사고 후 상대방 대응에서 {labels} 정황이 보입니다. "
+        "이 경우 현장에서 과실을 인정하거나 감정적으로 맞대응하기보다, "
+        "대화 내용과 객관 자료를 남기고 보험사·경찰 접수 여부를 검토하는 것이 중요합니다."
+    )
+    s3 = (
+        "- 사고 후 대응 쟁점: 상대방의 욕설, 과실 몰아가기, 현장 합의 요구, 보험 접수 거부 등은 "
+        "과실비율 자체를 바로 결정하지는 않지만 분쟁 경위와 사고 처리 과정에서 중요한 참고 자료가 될 수 있습니다."
+    )
+    s4 = (
+        "7. 상대방이 현장에서 제 과실을 일방적으로 주장하거나 욕설을 한 내용도 기록해 두는 것이 좋나요?\n"
+        "8. 상대가 보험 접수나 경찰 신고를 피하려고 할 경우 어떻게 대응해야 하나요?"
+    )
+    s5 = (
+        "- 상대방 발언 내용 메모\n"
+        "- 통화 녹음, 문자, 카카오톡 등 대화 기록\n"
+        "- 보험 접수 거부 또는 현장 합의 요구 정황\n"
+        "- 상대 차량 번호판, 연락처, 보험사 정보\n"
+        "- 경찰 신고 또는 보험 접수 기록"
+    )
+    s6 = (
+        "6. 상대방이 욕설·협박·합의 강요를 하면 말싸움으로 대응하지 말고 발언 내용과 시간을 기록합니다.\n"
+        "7. 현장에서 과실을 인정하는 표현은 피하고, 보험사와 객관 자료 기준으로 대응합니다.\n"
+        "8. 상대가 연락처 제공을 거부하거나 위협적으로 행동하면 경찰 신고를 검토합니다."
+    )
+
+    answer = append_to_section(answer, "[1. 사고 유형]", s1)
+    answer = append_to_section(answer, "[2. 사고 상황 정리]", s2)
+    answer = append_to_section(answer, "[3. 법률·과실 쟁점]", s3)
+    answer = append_to_section(answer, "[4. 보험사에 물어볼 질문]", s4)
+    answer = append_to_section(answer, "[5. 추가로 확보할 자료]", s5)
+    answer = append_to_section(answer, "[6. 다음 행동 체크리스트]", s6)
+
+    if not answer.rstrip().endswith("<END>"):
+        answer = answer.rstrip() + "\n<END>"
+
+    return answer
+
+
 def finalize_answer(raw_answer: str, user_input: str = "") -> Tuple[str, Dict[str, object]]:
     guardrail_reason = classify_guardrail_query(user_input)
 
@@ -969,6 +1084,17 @@ def finalize_answer(raw_answer: str, user_input: str = "") -> Tuple[str, Dict[st
     else:
         check["fallback_used"] = False
         check["forced_fallback_reason"] = ""
+
+    # Add dispute-response guidance when the user mentions verbal abuse, blame shifting,
+    # forced settlement, insurance refusal, police avoidance, threats, or leaving the scene.
+    prev_fallback_used = check.get("fallback_used", False)
+    prev_forced_reason = check.get("forced_fallback_reason", "")
+
+    formatted = inject_dispute_context(formatted, user_input=user_input)
+    check = safety_check(formatted, user_input=user_input)
+
+    check["fallback_used"] = prev_fallback_used
+    check["forced_fallback_reason"] = prev_forced_reason
 
     prefix = emergency_prefix(user_input)
     if prefix and not formatted.startswith("[긴급 안전 안내]"):
