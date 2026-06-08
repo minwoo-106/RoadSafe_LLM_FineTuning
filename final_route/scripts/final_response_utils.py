@@ -822,23 +822,98 @@ def has_low_quality_structure(answer: str) -> bool:
         return True
     return False
 
+
+def build_semantic_fallback_response(user_input: str = "", mismatches: List[str] = None) -> str:
+    """
+    모델 출력이 사용자 입력과 명백히 모순될 때 사용하는 의미 기반 fallback 리포트.
+    예: 좌회전 차량 vs 우회전 버스 사고를 모델이 다른 사고유형으로 오분류한 경우.
+    """
+    q = user_input.strip()
+    mismatches = mismatches or []
+
+    is_left_turn_vs_right_turn_bus = (
+        ("좌회전" in q)
+        and ("우회전" in q)
+        and ("버스" in q)
+        and ("접촉" in q or "사고" in q or "부딪" in q)
+    )
+
+    if is_left_turn_vs_right_turn_bus:
+        return (
+            "[1. 사고 유형]\n"
+            "- 사고 유형: 차 대 차 / 교차로 내 좌회전 차량과 맞은편 우회전 버스 간 접촉 사고\n"
+            "- 도로 상황: 교차로 또는 교차로 진입·회전 구간\n"
+            "- 사용자 진행: 좌회전 신호를 받고 좌회전 진행했다고 주장\n"
+            "- 상대 진행: 맞은편 차선에서 우회전하던 버스\n"
+            "- 현재 분쟁 포인트: 버스기사가 사용자 과실을 주장하며 다툼 발생\n\n"
+
+            "[2. 사고 상황 정리]\n"
+            "사용자는 좌회전 신호를 받고 교차로에서 좌회전하던 중, 맞은편 차선에서 우회전하던 버스와 접촉 사고가 발생했다고 설명했습니다. "
+            "이 경우 핵심은 사용자의 좌회전 신호 여부, 버스의 우회전 진입 시점, 충돌 위치, 양 차량의 진행 경로입니다.\n\n"
+
+            "[3. 법률·과실 쟁점]\n"
+            "- 핵심 쟁점: 사용자가 실제로 좌회전 신호를 받고 진입했는지, 버스가 우회전하면서 좌회전 차량의 진로를 방해했는지, 충돌 위치와 양 차량의 진입 시점이 어떻게 확인되는지가 중요합니다.\n"
+            "- 사용자에게 유리한 포인트: 좌회전 신호를 받고 정상적으로 진입한 사실이 블랙박스나 신호 자료로 확인된다면 사용자에게 유리하게 검토될 수 있습니다. 또한 버스가 우회전 중 충분히 서행하거나 안전 확인을 하지 않았다면 상대 측 과실 쟁점이 됩니다.\n"
+            "- 사용자에게 불리한 포인트: 좌회전 중에도 주변 차량을 확인할 주의의무가 있으므로, 충돌 직전 회피 가능성, 속도, 전방·측방 주시 여부에 따라 일부 과실이 검토될 수 있습니다.\n\n"
+
+            "[4. 보험사에 물어볼 질문]\n"
+            "1. 이번 사고를 차 대 차 교차로 사고 중 어떤 유형으로 분류했나요?\n"
+            "2. 제가 좌회전 신호를 받고 진입했다는 점이 과실 판단에 반영됐나요?\n"
+            "3. 버스의 우회전 진입 시점과 충돌 위치를 어떻게 판단했나요?\n"
+            "4. 버스의 서행 및 안전 확인 의무 위반 가능성은 검토됐나요?\n"
+            "5. 블랙박스 영상의 어느 장면을 근거로 과실을 판단했나요?\n"
+            "6. 추가 자료를 제출하면 과실 판단 재검토가 가능한가요?\n\n"
+
+            "[5. 추가로 확보할 자료]\n"
+            "- 블랙박스 원본 영상\n"
+            "- 좌회전 신호가 확인되는 장면 또는 신호 주기 자료\n"
+            "- 사고 직후 차량 위치와 충돌 부위 사진\n"
+            "- 교차로 차선, 정지선, 신호등, 우회전 차로 사진\n"
+            "- 버스 번호판, 버스 회사 정보, 보험사 접수번호\n"
+            "- 버스기사 발언 내용과 통화 기록\n\n"
+
+            "[6. 다음 행동 체크리스트]\n"
+            "1. 현장에서 과실을 인정하거나 구두 합의하지 않습니다.\n"
+            "2. 블랙박스 원본을 따로 백업합니다.\n"
+            "3. 보험사에 좌회전 신호 여부와 버스 우회전 진입 시점을 기준으로 사고 유형 재확인을 요청합니다.\n"
+            "4. 사고 위치, 신호, 차선, 충돌 부위를 시간순으로 정리합니다.\n"
+            "5. 상대가 위협적으로 행동했거나 분쟁이 크면 경찰 신고 또는 사고사실확인원 발급 여부를 검토합니다.\n"
+            "<END>"
+        )
+
+    # 특정 규칙으로 교정하기 어려운 경우에는 기존 타입 기반 fallback 사용
+    return build_typed_fallback_response(user_input=user_input)
+
+
+
+
 def finalize_answer(raw_answer: str, user_input: str = "") -> Tuple[str, Dict[str, object]]:
     guardrail_reason = classify_guardrail_query(user_input)
 
     formatted = format_response(raw_answer, user_input=user_input)
-    check = safety_check(formatted)
+    check = safety_check(formatted, user_input=user_input)
 
     # Force deterministic guardrail fallback for high-risk intents even if raw text looks clean.
     if guardrail_reason:
         formatted = build_guardrail_fallback_response(user_input=user_input, reason=guardrail_reason)
-        check = safety_check(formatted)
+        check = safety_check(formatted, user_input=user_input)
         check["fallback_used"] = True
         check["forced_fallback_reason"] = guardrail_reason
+
+    # If the model output contradicts the user's explicit input, replace it with semantic fallback.
+    elif check.get("semantic_mismatch"):
+        formatted = build_semantic_fallback_response(
+            user_input=user_input,
+            mismatches=check.get("semantic_mismatch", []),
+        )
+        check = safety_check(formatted, user_input=user_input)
+        check["fallback_used"] = True
+        check["forced_fallback_reason"] = "semantic_mismatch"
 
     # If the model output is unsafe, linguistically broken, or structurally suspicious, replace it.
     elif check["forbidden"] or check["bad_korean"] or has_low_quality_structure(formatted):
         formatted = build_typed_fallback_response(user_input=user_input)
-        check = safety_check(formatted)
+        check = safety_check(formatted, user_input=user_input)
         check["fallback_used"] = True
         check["forced_fallback_reason"] = "safety_or_structure"
 
@@ -852,7 +927,7 @@ def finalize_answer(raw_answer: str, user_input: str = "") -> Tuple[str, Dict[st
         prev_fallback = check.get("fallback_used", False)
 
         formatted = prefix + formatted
-        check = safety_check(formatted)
+        check = safety_check(formatted, user_input=user_input)
         check["fallback_used"] = True or prev_fallback
         check["forced_fallback_reason"] = prev_reason or "emergency_prefix"
 
